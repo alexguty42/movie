@@ -79,10 +79,8 @@ class ShowingProductsTest extends TestCase
 
     public function testDeleteMovie()
 {
-    // Crear un usuario para autenticar
     $user = User::factory()->create();
 
-    // Crear una película para eliminar
     $movie = Movie::create([
         'title' => 'Star Gordos',
         'year' => 2001,
@@ -92,19 +90,13 @@ class ShowingProductsTest extends TestCase
         'rating' => 4,
     ]);
 
-    // Autenticar el usuario
     Sanctum::actingAs($user);
 
-    // Eliminar la película
     $response = $this->delete("/api/movies/{$movie->id}");
 
-    // Verificar que se haya eliminado correctamente
     $response->assertStatus(200);
     $this->assertDatabaseMissing('movies', ['id' => $movie->id]);
 }
 
 }
 
-/*
-curl  -d '{"title":"Chucky", "year":2020,"director":"michael jackson","genre":"horror","duration":120,"rating":6}' -H "Content-Type: application/json" -X POST http://localhost:8000/api/movies
-*/
